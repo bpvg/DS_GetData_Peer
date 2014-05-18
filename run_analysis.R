@@ -14,7 +14,9 @@ RunAll <- function(){
     # 3. Uses descriptive activity names to name the activities in the data set
     Extracter()
     
-
+    # 4. Appropriately labels the data set with descriptive activity names.
+    Factorizer()
+    
 }
 
 
@@ -100,5 +102,15 @@ Extracter <- function(){
     assign("col.filter", filter, envir=.GlobalEnv)
     
     return(TRUE)
+}
+
+# == Label the Activities ==
+# We need to transform integer values into a factor
+Factorizer() <- function(){
+    
+    # Read variables names from the dataset
+    fctrnames <- read.table("./Dataset/activity_labels.txt", as.is=TRUE)
+    
+    assign("fact.names", fctrnames$V2, envir=.GlobalEnv)
     
 }
