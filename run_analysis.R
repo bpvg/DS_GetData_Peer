@@ -16,7 +16,13 @@ RunAll <- function(){
     
     # 4. Appropriately labels the data set with descriptive activity names.
     Factorizer()
+ 
+    # It's time to put it all toghether.
+    TinyAssembler()
     
+    #Export it
+    write.csv(output, "./out_tiny.csv")
+    save(list="output", file="./out_tiny.RData", envir=.GlobalEnv)
 }
 
 
@@ -106,11 +112,22 @@ Extracter <- function(){
 
 # == Label the Activities ==
 # We need to transform integer values into a factor
-Factorizer() <- function(){
+Factorizer <- function(){
     
     # Read variables names from the dataset
     fctrnames <- read.table("./Dataset/activity_labels.txt", as.is=TRUE)
     
     assign("fact.names", fctrnames$V2, envir=.GlobalEnv)
-    
+    return(TRUE)
 }
+
+# == Put it all together ==
+TinyAssembler <- function(){
+    
+    output <- NULL
+    output$subject <- subject$V1
+    output$activity <- factor(y$V1, labels=fact.names)
+    names(X) <- col.names
+    output <- cbind(output, X[, col.filter])
+}
+
