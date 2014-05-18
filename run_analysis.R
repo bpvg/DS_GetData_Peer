@@ -4,13 +4,17 @@
 RunAll <- function(){
     
     # Get ready!
-    DataCheck()
+    DataChecker()
     
-    # 1.Merges the training and the test sets to create one data set.
+    # 1. Merges the training and the test sets to create one data set.
     Merger()
     
+    # 2. Extracts only the measurements on the mean and standard deviation for 
+    # each measurement.
+    # 3. Uses descriptive activity names to name the activities in the data set
+    Extracter()
     
-    
+
 }
 
 
@@ -19,7 +23,7 @@ RunAll <- function(){
 # directory. If no such dir exists, it will check for the presence of the original
 # zip file and unzip it. If the zip file is not present itself it will be downloaded 
 # from the given source.
-DataCheck <- function(){
+DataChecker <- function(){
     remote <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
     dirz   <- "UCI HAR Dataset"
     dir    <- "Dataset"
@@ -71,5 +75,30 @@ Merger <- function(){
                                  as.is = TRUE)
         assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
     }
+    
+    # Save for later use
+    save(list=c(fr,fs), 
+         file="merge.RData", 
+         envir=.GlobalEnv, 
+         compress=TRUE, 
+         compression_level=9)
+    
+    return(TRUE)    
+}
+
+# == Extract relevant columns ==
+# We only need columns with mean or std.deviation information.
+Extracter <- function(){
+    
+    # Read variables names from the dataset
+    varnames <- read.table("./Dataset/features.txt", as.is=TRUE)
+    
+    # GREP for required data.
+    filter <- grep("mean()|std()", varnames$V2, fixed=FALSE)
+    
+    assign("col.names", make.names(varnames$V2, unique=TRUE), envir=.GlobalEnv)
+    assign("col.filter", filter, envir=.GlobalEnv)
+    
+    return(TRUE)
     
 }
