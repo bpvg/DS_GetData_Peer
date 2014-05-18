@@ -2,7 +2,12 @@
 
 #This is the main function to process the data
 RunAll <- function(){
+    
+    # Get ready!
     DataCheck()
+    
+    # 1.Merges the training and the test sets to create one data set.
+    Merger()
     
     
     
@@ -16,7 +21,8 @@ RunAll <- function(){
 # from the given source.
 DataCheck <- function(){
     remote <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-    dir    <- "UCI HAR Dataset"
+    dirz   <- "UCI HAR Dataset"
+    dir    <- "Dataset"
     file   <- "Dataset.zip"
     
     # I assume if the directory exists then it has the right data!
@@ -29,7 +35,41 @@ DataCheck <- function(){
             if (!file.exists(file)) stop("download failed!")
         }
         unzip(file)
+        file.rename(dirz,dir)
     }
     return(TRUE)
 }
 
+# == Merging 'test' and 'train' data ==
+# This function will combine both sets into a unique data set.
+Merger <- function(){
+    
+    q <-c("test", "train")
+    fr <- c("subject", "X", "y")
+    fs <- c("body_acc_x",  "body_acc_y",  "body_acc_z", 
+            "body_gyro_x", "body_gyro_y", "body_gyro_z",
+            "total_acc_x", "total_acc_y", "total_acc_z")
+    
+    for (f in fr){
+        
+        tmp_test <- read.table( paste("./Dataset/test/", f ,"_test.txt", sep=""),
+                                sep = "",
+                                as.is = TRUE)
+        tmp_train <- read.table( paste("./Dataset/train/", f ,"_train.txt", sep=""),
+                                 sep = "",
+                                 as.is = TRUE)
+        assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
+    }
+    
+    for (f in fs){
+        
+        tmp_test <- read.table( paste("./Dataset/test/Inertial Signals/", f ,"_test.txt", sep=""),
+                                sep = "",
+                                as.is = TRUE)
+        tmp_train <- read.table( paste("./Dataset/train/Inertial Signals/", f ,"_train.txt", sep=""),
+                                 sep = "",
+                                 as.is = TRUE)
+        assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
+    }
+    
+}
