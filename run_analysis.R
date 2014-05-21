@@ -26,8 +26,11 @@ RunAll <- function(){
     # variable for each activity and each subject.
     Summarizer()
     
-    # And lets finish the script by exporting the results.
+    # And lets finish the script by exporting the results and cleaning memory.
     Exporter() 
+    Cleaner()
+    
+    return(TRUE)
     
 }
 
@@ -38,22 +41,22 @@ RunAll <- function(){
 # zip file and unzip it. If the zip file is not present itself it will be downloaded 
 # from the given source.
 DataChecker <- function(){
-    remote <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-    dirz   <- "UCI HAR Dataset"
-    dir    <- "Dataset"
-    file   <- "Dataset.zip"
+    kRemote <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+    kDirZip <- "UCI HAR Dataset"
+    kDir    <- "Dataset"
+    kFile   <- "Dataset.zip"
     
     # I assume if the directory exists then it has the right data!
-    if (!file.exists(dir)){
-        if (!file.exists(file)){
+    if (!file.exists(kDir)){
+        if (!file.exists(kFile)){
             #file is not present at the working directory. Let's download it!
             method <-"auto"  # Default method: shall be fine for MS Windows (untested!)
             if (.Platform$OS.type=="unix") method <- "curl"  # Use for unix-like systems
-            download.file(remote, file, method, TRUE, "wb")
-            if (!file.exists(file)) stop("download failed!")
+            download.file(kRemote, kFile, method, TRUE, "wb")
+            if (!file.exists(kFile)) stop("download failed!")
         }
-        unzip(file)
-        file.rename(dirz,dir)
+        unzip(kFile)
+        file.rename(kDirZip,kDir)
     }
     return(TRUE)
 }
@@ -162,5 +165,23 @@ Exporter <- function(){
     write.csv(output, "./tidy.csv")
     zip("./tidy.zip", "./tidy.csv")
     save(list="output", file="./tidy.RData", envir=.GlobalEnv)   
+    
+    return(TRUE)
+}
+
+# == Clean environment ==
+Cleaner <- function(){
+    
+    # Remove variables stored in GlobalEnvironment during processing and no longer
+    # needed.
+    rm(col.filter, envir=.GlobalEnv)
+    rm(col.names, envir=.GlobalEnv)
+    rm(fact.names, envir=.GlobalEnv)
+    rm(X, envir=.GlobalEnv)
+    rm(y, envir=.GlobalEnv)
+    rm(subject, envir=.GlobalEnv)
+    rm(semi.processed, envir=.GlobalEnv)
+    
+    return(TRUE)
     
 }
