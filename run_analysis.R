@@ -18,11 +18,19 @@ RunAll <- function(){
     Factorizer()
  
     # It's time to put it all toghether.
-    TinyAssembler()
+    TidyAssembler()
     
-    #Export it
-    write.csv(output, "./out_tiny.csv")
-    save(list="output", file="./out_tiny.RData", envir=.GlobalEnv)
+    #OK. So... Now i have some semi-processed data. It's time to complete the last
+    # part.
+    # 5. Creates a second, independent tidy data set with the average of each 
+    # variable for each activity and each subject.
+    Summarizer()
+    
+    # And lets finish the script by exporting the results.
+    write.csv(output, "./tidy.csv")
+    zip("./tidy.zip", "./tidy.csv")
+    save(list="output", file="./tidy.RData", envir=.GlobalEnv)    
+    
 }
 
 
@@ -56,14 +64,12 @@ DataChecker <- function(){
 # This function will combine both sets into a unique data set.
 Merger <- function(){
     
-    q <-c("test", "train")
     fr <- c("subject", "X", "y")
-    fs <- c("body_acc_x",  "body_acc_y",  "body_acc_z", 
-            "body_gyro_x", "body_gyro_y", "body_gyro_z",
-            "total_acc_x", "total_acc_y", "total_acc_z")
+    #fs <- c("body_acc_x",  "body_acc_y",  "body_acc_z", 
+    #        "body_gyro_x", "body_gyro_y", "body_gyro_z",
+    #        "total_acc_x", "total_acc_y", "total_acc_z")
     
     for (f in fr){
-        
         tmp_test <- read.table( paste("./Dataset/test/", f ,"_test.txt", sep=""),
                                 sep = "",
                                 as.is = TRUE)
@@ -72,24 +78,29 @@ Merger <- function(){
                                  as.is = TRUE)
         assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
     }
+       
     
-    for (f in fs){
-        
-        tmp_test <- read.table( paste("./Dataset/test/Inertial Signals/", f ,"_test.txt", sep=""),
-                                sep = "",
-                                as.is = TRUE)
-        tmp_train <- read.table( paste("./Dataset/train/Inertial Signals/", f ,"_train.txt", sep=""),
-                                 sep = "",
-                                 as.is = TRUE)
-        assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
-    }
+    #** After completing the first 4 steps I realised these files are not needed
+    # so I don't process and store them anymore as this is a waste of processing #
+    # time and computer memory.
+    #for (f in fs){
+    #    
+    #    tmp_test <- read.table( paste("./Dataset/test/Inertial Signals/", f ,"_test.txt", sep=""),
+    #                            sep = "",
+    #                            as.is = TRUE)
+    #    tmp_train <- read.table( paste("./Dataset/train/Inertial Signals/", f ,"_train.txt", sep=""),
+    #                             sep = "",
+    #                             as.is = TRUE)
+    #    assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
+    #}
     
+    #**Used for debug, but no longer needed
     # Save for later use
-    save(list=c(fr,fs), 
-         file="merge.RData", 
-         envir=.GlobalEnv, 
-         compress=TRUE, 
-         compression_level=9)
+    #save(list = fr,   #list=c(fr,fs), 
+    #     file = "merge.RData", 
+    #     envir = .GlobalEnv, 
+    #     compress = TRUE, 
+    #     compression_level = 9)
     
     return(TRUE)    
 }
@@ -122,12 +133,27 @@ Factorizer <- function(){
 }
 
 # == Put it all together ==
-TinyAssembler <- function(){
+TidyAssembler <- function(){
     
     output <- NULL
     output$subject <- subject$V1
     output$activity <- factor(y$V1, labels=fact.names)
     names(X) <- col.names
     output <- cbind(output, X[, col.filter])
+    
+    assign("semi.processed", output, envir=.GlobalEnv)
+    
+    return(TRUE)
 }
 
+# == Get means by subject/activity ==
+Summarizer <- function(){
+    
+    assign("output", 
+           aggregate(.~subject+activity,
+                     mean,
+                     data = semi.processed),
+           envir=.GlobalEnv)
+    
+    return(TRUE)    
+}
