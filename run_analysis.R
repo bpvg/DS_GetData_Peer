@@ -17,7 +17,7 @@ RunAll <- function(){
     # 4. Appropriately labels the data set with descriptive activity names.
     Factorizer()
  
-    # It's time to put it all toghether.
+    # It's time to put it all together.
     TidyAssembler()
     
     #OK. So... Now i have some semi-processed data. It's time to complete the last
@@ -27,9 +27,7 @@ RunAll <- function(){
     Summarizer()
     
     # And lets finish the script by exporting the results.
-    write.csv(output, "./tidy.csv")
-    zip("./tidy.zip", "./tidy.csv")
-    save(list="output", file="./tidy.RData", envir=.GlobalEnv)    
+    Exporter() 
     
 }
 
@@ -80,7 +78,7 @@ Merger <- function(){
     }
        
     
-    #** After completing the first 4 steps I realised these files are not needed
+    #** After completing the first 4 steps I realized these files are not needed
     # so I don't process and store them anymore as this is a waste of processing #
     # time and computer memory.
     #for (f in fs){
@@ -156,4 +154,13 @@ Summarizer <- function(){
            envir=.GlobalEnv)
     
     return(TRUE)    
+}
+
+# == Create the output files ==
+Exporter <- function(){
+    
+    write.csv(output, "./tidy.csv")
+    zip("./tidy.zip", "./tidy.csv")
+    save(list="output", file="./tidy.RData", envir=.GlobalEnv)   
+    
 }
