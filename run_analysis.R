@@ -54,7 +54,8 @@ DataChecker <- function(){
             method <-"auto"  # Default method: shall be fine for MS Windows (untested!)
             if (.Platform$OS.type=="unix") method <- "curl"  # Use for unix-like systems
             download.file(kRemote, kFile, method, TRUE, "wb")
-            if (!file.exists(kFile)) stop("download failed!")
+            if (!file.exists(kFile))
+                stop("download failed!")
         }
         unzip(kFile)
         file.rename(kDirZip,kDir)
@@ -137,11 +138,24 @@ Factorizer <- function(){
 # == Put it all together ==
 TidyAssembler <- function(){
     
+    if (!exists("colNames", envir=.GlobalEnv))
+        stop("'colNames' is not available. Try running Extracter() again.")
+    if (!exists("colFilter", envir=.GlobalEnv))
+        stop("'colFilter' is not available. Try running Extracter() again.")
+    if (!exists("factNames", envir=.GlobalEnv))
+        stop("'factNames' is not available. Try running Factorizer() again.")
+    if (!exists("subject", envir=.GlobalEnv))
+        stop("'subject' is not available. Try running Merger() again.")    
+    if (!exists("X", envir=.GlobalEnv))
+        stop("'X' is not available. Try running Merger() again.") 
+    if (!exists("y", envir=.GlobalEnv))
+        stop("'y' is not available. Try running Merger() again.") 
+    
     output <- NULL
     output$subject <- subject$V1
-    output$activity <- factor(y$V1, labels=fact.names)
-    names(X) <- col.names
-    output <- cbind(output, X[, col.filter])
+    output$activity <- factor(y$V1, labels=factNames)
+    names(X) <- colNames
+    output <- cbind(output, X[, colFilter])
     
     assign("semiProcessed", output, envir=.GlobalEnv)
     
@@ -150,6 +164,9 @@ TidyAssembler <- function(){
 
 # == Get means by subject/activity ==
 Summarizer <- function(){
+    
+    if (!exists("semiProcessed", envir=.GlobalEnv))
+        stop("'semiProcessed' is not available. Try running TidyAssembler() again.")
     
     assign("output", 
            aggregate(.~subject+activity,
@@ -162,6 +179,9 @@ Summarizer <- function(){
 
 # == Create the output files ==
 Exporter <- function(){
+    
+    if (!exists("output", envir=.GlobalEnv))
+        stop("'Output' is not available. Try running Summarizer() again.")
     
     write.csv(output, "./tidy.csv")
     zip("./tidy.zip", "./tidy.csv")
@@ -176,7 +196,7 @@ Cleaner <- function(){
     # Remove variables stored in GlobalEnvironment during processing and no longer
     # needed.
     rm(colFilter, envir=.GlobalEnv)
-    rm(colnames, envir=.GlobalEnv)
+    rm(colNames, envir=.GlobalEnv)
     rm(factNames, envir=.GlobalEnv)
     rm(X, envir=.GlobalEnv)
     rm(y, envir=.GlobalEnv)
