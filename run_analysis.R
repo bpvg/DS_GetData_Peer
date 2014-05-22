@@ -14,7 +14,7 @@ RunAll <- function(){
     # 2. Extracts only the measurements on the mean and standard deviation for 
     # each measurement.
     # 3. Uses descriptive activity names to name the activities in the data set
-    Extracter()
+    Extractor()
     
     # 4. Appropriately labels the data set with descriptive activity names.
     Factorizer()
@@ -110,7 +110,7 @@ Merger <- function(){
 
 # == Extract relevant columns ==
 # We only need columns with mean or std.deviation information.
-Extracter <- function(type="Human"){
+Extractor <- function(type="Human"){
     
     # This generates a nice error message when an invalid argument is used.
     type <- match.arg(type, c("Human", "Machine"))
@@ -153,9 +153,9 @@ Factorizer <- function(){
 TidyAssembler <- function(){
     
     if (!exists("colNames", envir=.GlobalEnv))
-        stop("'colNames' is not available. Try running Extracter() again.")
+        stop("'colNames' is not available. Try running Extractor() again.")
     if (!exists("colFilter", envir=.GlobalEnv))
-        stop("'colFilter' is not available. Try running Extracter() again.")
+        stop("'colFilter' is not available. Try running Extractor() again.")
     if (!exists("factNames", envir=.GlobalEnv))
         stop("'factNames' is not available. Try running Factorizer() again.")
     if (!exists("subject", envir=.GlobalEnv))

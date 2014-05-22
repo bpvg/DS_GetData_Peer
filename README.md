@@ -21,10 +21,10 @@ For this assignment we're using data from the ["Human Activity Recognition Using
 ## Functions
 
 ### RunAll()
-This is the main function and its purpose is to run all the other functions in proper order:  
+This is the main function and its purpose is to run all the other functions in right order and with the default arguments (when applicable):  
 1. DataChecker()  
 2. Merger()  
-3. Extracter()  
+3. Extractor()  
 4. Factorizer()  
 5. TidyAssembler()  
 6. Summarizer()  
@@ -60,15 +60,15 @@ None
 TRUE, if completed successfully.   
 
 
-### Extracter()
+### Extractor()
 This function reads the original variables names from 'features.txt' file and processes these names.
 A first step is preformed to find variables' names containing either 'mean()' or 'std()' and store in memory their column number for later usage.
 A second step gets the names and processes them. As part of the process all non-valid characters are removed from the names and replaced by dots ('.'). Then, the dots themselves are removed. At the end the words 'mean' and 'std' are replaced by 'Mean' and 'Std'. These names are also stored in memory for later usage.
 In both cases variables are stored in the 'Global Environment'.  
-Nowhitstanding with the clases material stating that the names shall not contain  capital letters, I prefer to keep them this way for improved human readability. This seems to be accepted in R coding conventions.
   
 **Arguments:**  
-None
+_type_: optional argument, a text string indicating if the data is intended for `Human` reading or for `Machine` reading. The first will result in file headers to be generated with ProperCase and the last will result in headers being all lowercase.  
+Default is `Human`.
 
 **Returns:**  
 TRUE, if completed successfully.   
@@ -85,7 +85,10 @@ TRUE, if completed successfully.
 
 
 ### TidyAssembler()
-
+This function is used to use the output of previous functions and build a data.frame with the required data and store it in memory.  
+First it starts by creating a list with the subject IDs.  
+Then, a new column is added with information about the activities preformed in each record. This data is displayed using an English label instead of the original 1 to 6 numbers (a factor is used here). The labels used are the same processed by the Factorizer() function.  
+At the end the two outputs from previous functions are used to add the column headers processed by Extractor() to the original data read by Merger() and then subset the columns containing the 'mean' and 'std' information identified by Extractor() as well.
   
 **Arguments:**  
 None
@@ -95,8 +98,9 @@ TRUE, if completed successfully.
 
 
 ### Summarizer()
+This is another small (yet important) function responsible for reducing the original dataset.  
+For each subject and activity, the average value for all records is returned instead of the original number of records. This results in the original 10,299 records being reduced to 180 (30 subjects x 6 activities).
 
-  
 **Arguments:**  
 None
 
@@ -114,7 +118,7 @@ This is another small and simple function. It uses the data prepared by Summariz
 None
 
 **Returns:**  
-The compession ration for the zip file and 'TRUE' (if completed successfully).   
+The compession ratio for the zip file and 'TRUE' (if completed successfully).   
 
 
 ### Cleaner()
