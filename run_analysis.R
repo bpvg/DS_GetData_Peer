@@ -118,7 +118,14 @@ Extracter <- function(){
     # GREP for required data.
     filter <- grep("mean()|std()", varNames$V2, fixed=FALSE)
     
-    assign("colNames", make.names(varNames$V2, unique=TRUE), envir=.GlobalEnv)
+    # Variables names processing
+    names <- make.names(varNames$V2, unique=TRUE)
+    names <- gsub(".", "", names, fixed=TRUE)   # Clean dots
+    names <- gsub("mean", "Mean", names, fixed=TRUE)   # Uppercase
+    names <- gsub("std", "Std", names, fixed=TRUE)   # Uppercase
+    # I can cascade gsub's inside each other, but this is more readable
+    
+    assign("colNames", names, envir=.GlobalEnv)
     assign("colFilter", filter, envir=.GlobalEnv)
 
     return(TRUE)
