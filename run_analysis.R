@@ -1,4 +1,6 @@
-#Getting and Cleaning Data (Course Project)
+# Getting and Cleaning Data (Course Project)  
+# Data Science -> Getting and Cleaning Data -> Peer Assessment
+    
 
 #This is the main function to process the data
 RunAll <- function(){
@@ -30,8 +32,7 @@ RunAll <- function(){
     Exporter() 
     Cleaner()
     
-    return(TRUE)
-    
+    return(TRUE)    
 }
 
 
@@ -71,13 +72,13 @@ Merger <- function(){
     #        "total_acc_x", "total_acc_y", "total_acc_z")
     
     for (f in fr){
-        tmp_test <- read.table( paste("./Dataset/test/", f ,"_test.txt", sep=""),
+        tmpTest <- read.table(paste("./Dataset/test/", f ,"_test.txt", sep=""),
                                 sep = "",
                                 as.is = TRUE)
-        tmp_train <- read.table( paste("./Dataset/train/", f ,"_train.txt", sep=""),
+        tmpTrain <- read.table(paste("./Dataset/train/", f ,"_train.txt", sep=""),
                                  sep = "",
                                  as.is = TRUE)
-        assign(f, rbind(tmp_test,tmp_train), envir=.GlobalEnv)
+        assign(f, rbind(tmpTest,tmpTrain), envir=.GlobalEnv)
     }
        
     
@@ -111,14 +112,14 @@ Merger <- function(){
 Extracter <- function(){
     
     # Read variables names from the dataset
-    varnames <- read.table("./Dataset/features.txt", as.is=TRUE)
+    varNames <- read.table("./Dataset/features.txt", as.is=TRUE)
     
     # GREP for required data.
-    filter <- grep("mean()|std()", varnames$V2, fixed=FALSE)
+    filter <- grep("mean()|std()", varNames$V2, fixed=FALSE)
     
-    assign("col.names", make.names(varnames$V2, unique=TRUE), envir=.GlobalEnv)
-    assign("col.filter", filter, envir=.GlobalEnv)
-    
+    assign("colNames", make.names(varNames$V2, unique=TRUE), envir=.GlobalEnv)
+    assign("colFilter", filter, envir=.GlobalEnv)
+
     return(TRUE)
 }
 
@@ -127,9 +128,9 @@ Extracter <- function(){
 Factorizer <- function(){
     
     # Read variables names from the dataset
-    fctrnames <- read.table("./Dataset/activity_labels.txt", as.is=TRUE)
-    
-    assign("fact.names", fctrnames$V2, envir=.GlobalEnv)
+    fctrNames <- read.table("./Dataset/activity_labels.txt", as.is=TRUE)
+
+    assign("factNames", fctrNames$V2, envir=.GlobalEnv)
     return(TRUE)
 }
 
@@ -142,7 +143,7 @@ TidyAssembler <- function(){
     names(X) <- col.names
     output <- cbind(output, X[, col.filter])
     
-    assign("semi.processed", output, envir=.GlobalEnv)
+    assign("semiProcessed", output, envir=.GlobalEnv)
     
     return(TRUE)
 }
@@ -153,7 +154,7 @@ Summarizer <- function(){
     assign("output", 
            aggregate(.~subject+activity,
                      mean,
-                     data = semi.processed),
+                     data = semiProcessed),
            envir=.GlobalEnv)
     
     return(TRUE)    
@@ -174,14 +175,13 @@ Cleaner <- function(){
     
     # Remove variables stored in GlobalEnvironment during processing and no longer
     # needed.
-    rm(col.filter, envir=.GlobalEnv)
-    rm(col.names, envir=.GlobalEnv)
-    rm(fact.names, envir=.GlobalEnv)
+    rm(colFilter, envir=.GlobalEnv)
+    rm(colnames, envir=.GlobalEnv)
+    rm(factNames, envir=.GlobalEnv)
     rm(X, envir=.GlobalEnv)
     rm(y, envir=.GlobalEnv)
     rm(subject, envir=.GlobalEnv)
-    rm(semi.processed, envir=.GlobalEnv)
+    rm(semiProcessed, envir=.GlobalEnv)
     
-    return(TRUE)
-    
+    return(TRUE)    
 }
