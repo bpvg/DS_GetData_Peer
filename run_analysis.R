@@ -190,9 +190,9 @@ Exporter <- function(){
     if (!exists("output", envir=.GlobalEnv))
         stop("'Output' is not available. Try running Summarizer() again.")
     
-    write.csv(output, "./tidy.csv")
+    write.csv(output, "./tidy.csv", row.names=FALSE)
     zip("./tidy.zip", "./tidy.csv")
-    save(list="output", file="./tidy.RData", envir=.GlobalEnv)   
+    save(list="output", file="./tidy.RData", envir=.GlobalEnv, compress="xz")   
     
     return(TRUE)
 }
