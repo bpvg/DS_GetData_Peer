@@ -110,8 +110,11 @@ Merger <- function(){
 
 # == Extract relevant columns ==
 # We only need columns with mean or std.deviation information.
-Extracter <- function(){
+Extracter <- function(type="Human"){
     
+    # This generates a nice error message when an invalid argument is used.
+    type <- match.arg(type, c("Human", "Machine"))
+
     # Read variables names from the dataset
     varNames <- read.table("./Dataset/features.txt", as.is=TRUE)
     
@@ -121,9 +124,13 @@ Extracter <- function(){
     # Variables names processing
     names <- make.names(varNames$V2, unique=TRUE)
     names <- gsub(".", "", names, fixed=TRUE)   # Clean dots
-    names <- gsub("mean", "Mean", names, fixed=TRUE)   # Uppercase
-    names <- gsub("std", "Std", names, fixed=TRUE)   # Uppercase
-    # I can cascade gsub's inside each other, but this is more readable
+    if (type=="Human"){
+        names <- gsub("mean", "Mean", names, fixed=TRUE)   # Uppercase
+        names <- gsub("std", "Std", names, fixed=TRUE)   # Uppercase
+        # I can cascade gsub's inside each other, but this is more readable
+    } else {
+        names <- tolower(names)
+    }
     
     assign("colNames", names, envir=.GlobalEnv)
     assign("colFilter", filter, envir=.GlobalEnv)
