@@ -5,7 +5,13 @@
 -------------------  
 # Code Book  
 
-## Usefull links
+## Usefull links  
+
+Acelerometer: http://en.wikipedia.org/wiki/Accelerometer  
+Gyroscope: http://en.wikipedia.org/wiki/Gyroscope  
+Jerk: http://en.wikipedia.org/wiki/Jerk_%28physics%29  
+Euclidean Norm: http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_norm  
+Fast Fourier Trandform: http://en.wikipedia.org/wiki/Fast_Fourier_transform
 
 
 ## Variables
@@ -60,12 +66,12 @@ The average of body acceleration Jerk signals standard deviation on each of the 
 
 **tBodyGyroMeanX**  
 **tBodyGyroMeanY**  
-**tBodyGyroMeanZ**
+**tBodyGyroMeanZ**  
 The average of mean gyroscope signals on each of the X, Y and Z axis (denoted by the last character in the variable name).  
 
 **tBodyGyroStdX**  
 **tBodyGyroStdY**  
-**tBodyGyroStdZ**
+**tBodyGyroStdZ**  
 The average of standard deviation of gyroscope signals on each of the X, Y and Z axis (denoted by the last character in the variable name).  
 
 **tBodyGyroJerkMeanX**  
@@ -108,74 +114,60 @@ The average of the mean of magnitude of gyroscope Jerk signals.
 **tBodyGyroJerkMagStd**  
 The average of the standard deviation of magnitude of gyroscope Jerk signals.  
 
+
 ### Frequency Domain   
 
 
 **fBodyAccMeanX**  
 **fBodyAccMeanY**  
 **fBodyAccMeanZ**  
-
+The average of body acceleration mean of signals on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.  
 
 **fBodyAccStdX**  
 **fBodyAccStdY**  
 **fBodyAccStdZ**  
-
-
-**fBodyAccMeanFreqX**  
-**fBodyAccMeanFreqY**  
-**fBodyAccMeanFreqZ**  
-
+The average of body acceleration signals' standard deviation on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.  
 
 **fBodyAccJerkMeanX**  
 **fBodyAccJerkMeanY**  
 **fBodyAccJerkMeanZ**  
-
+The average of mean of body acceleration Jerk signals on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.  
 
 **fBodyAccJerkStdX**  
 **fBodyAccJerkStdY**  
 **fBodyAccJerkStdZ**  
-
-
-**fBodyAccJerkMeanFreqX**  
-**fBodyAccJerkMeanFreqY**  
-**fBodyAccJerkMeanFreqZ**  
-
+The average of standard deviation of body acceleration Jerk signals on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.
 
 **fBodyGyroMeanX**  
 **fBodyGyroMeanY**  
 **fBodyGyroMeanZ**  
-
+The average of gyroscope signals' mean on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.  
 
 **fBodyGyroStdX**  
 **fBodyGyroStdY**  
 **fBodyGyroStdZ**  
+The average of gyroscope signals' standard deviation on each of the X, Y and Z axis (denoted by the last character in the variable name) after Fast Fourrier Transformation have been applied to data.
 
+**fBodyAccMagMean**  
+The average of the mean of magnitude of body acceleration signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyGyroMeanFreqX**  
-**fBodyGyroMeanFreqY**  
-**fBodyGyroMeanFreqZ**  
+**fBodyAccMagStd**  
+The average of the standard deviation of magnitude of body acceleration signals after Fast Fourrier Transformation have been applied to data.  
 
+**fBodyAccJerkMagMean**  
+The average of the magnitude of mean of body acceleration Jerk signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyAccMagMean**
+**fBodyAccJerkMagStd**  
+The average of the magnitude of standard deviation of body acceleration Jerk signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyAccMagStd**
+**fBodyGyroMagMean**  
+The average of the mean of magnitude of gyroscope signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyAccMagMeanFreq**
+**fBodyGyroMagStd**  
+The average of the standard deviation of magnitude of gyroscope signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyBodyAccJerkMagMean**
+**fBodyGyroJerkMagMean**  
+The average of the mean of magnitude of gyroscope Jerk signals after Fast Fourrier Transformation have been applied to data.  
 
-**fBodyBodyAccJerkMagStd**
-
-**fBodyBodyAccJerkMagMeanFreq**
-
-**fBodyBodyGyroMagMean**
-
-**fBodyBodyGyroMagStd**
-
-**fBodyBodyGyroMagMeanFreq**
-
-**fBodyBodyGyroJerkMagMean**
-
-**fBodyBodyGyroJerkMagStd**
-
-**fBodyBodyGyroJerkMagMeanFreq**
+**fBodyGyroJerkMagStd**
+The average of the standard deviation of magnitude of gyroscope Jerk signals after Fast Fourrier Transformation have been applied to data.    

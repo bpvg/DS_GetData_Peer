@@ -62,7 +62,7 @@ TRUE, if completed successfully.
 
 ### Extractor()
 This function reads the original variables names from 'features.txt' file and processes these names.
-A first step is preformed to find variables' names containing either 'mean()' or 'std()' and store in memory their column number for later usage.
+A first step is preformed to find variables' names containing either 'mean' or 'std' (but not 'meanFreq') and store in memory their column number for later usage.
 A second step gets the names and processes them. As part of the process all non-valid characters are removed from the names and replaced by dots ('.'). Then, the dots themselves are removed. At the end the words 'mean' and 'std' are replaced by 'Mean' and 'Std'. These names are also stored in memory for later usage.
 In both cases variables are stored in the 'Global Environment'.  
   

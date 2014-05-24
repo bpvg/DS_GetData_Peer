@@ -119,11 +119,13 @@ Extractor <- function(type="Human"){
     varNames <- read.table("./Dataset/features.txt", as.is=TRUE)
     
     # GREP for required data.
-    filter <- grep("mean()|std()", varNames$V2, fixed=FALSE)
-    
+    filter <- grep("mean[(]|std", varNames$V2, fixed=FALSE)
+
     # Variables names processing
     names <- make.names(varNames$V2, unique=TRUE)
     names <- gsub(".", "", names, fixed=TRUE)   # Clean dots
+    # Fix what looks as misspelled variables in orginal data set
+    names <- gsub("fBodyBody", "fBody", names, fixed=TRUE)   
     if (type=="Human"){
         names <- gsub("mean", "Mean", names, fixed=TRUE)   # Uppercase
         names <- gsub("std", "Std", names, fixed=TRUE)   # Uppercase
