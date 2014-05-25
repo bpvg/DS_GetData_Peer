@@ -125,7 +125,12 @@ Extractor <- function(type="Human"){
     names <- make.names(varNames$V2, unique=TRUE)
     names <- gsub(".", "", names, fixed=TRUE)   # Clean dots
     # Fix what looks as misspelled variables in orginal data set
-    names <- gsub("fBodyBody", "fBody", names, fixed=TRUE)   
+    names <- gsub("fBodyBody", "fBody", names, fixed=TRUE)
+    # Nowithstanding with w4 rules I decided to keep an Human readable format and
+    # use as default a easyToReadColumnName (which seems to be an accepted style 
+    # in Google R Style Guide) instead of using the recomended alllowercasecolumnsnames. 
+    # The former is available as well if the dataset is not intended to be read 
+    # by humans. 
     if (type=="Human"){
         names <- gsub("mean", "Mean", names, fixed=TRUE)   # Uppercase
         names <- gsub("std", "Std", names, fixed=TRUE)   # Uppercase

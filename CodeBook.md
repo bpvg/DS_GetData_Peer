@@ -14,7 +14,9 @@ Euclidean Norm: http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_no
 Fast Fourier Trandform: http://en.wikipedia.org/wiki/Fast_Fourier_transform
 
 
-## Variables
+## Variables  
+Please not the names below are the ones resulting from running the code with the default arguments on Extractor().  
+They have the same meaning of they lowercase equivalents.  
 
 ### ID
 
